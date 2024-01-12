@@ -2,11 +2,10 @@
 import DataTable from '@/components/Table'
 import FileUpload from '@/components/FileUpload'
 
-export default function Page() {
+export default async function Page() {
   
   return (
     <div>
-      <FileUpload />
       <DataTable />
     </div>
 

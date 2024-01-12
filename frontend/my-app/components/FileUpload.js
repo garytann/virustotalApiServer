@@ -16,25 +16,44 @@ const props = {
     if (info.file.status === 'done') {
       message.success(`file uploaded successfully`);
     } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
+      message.error(`file upload failed.`);
     }
   },
 };
 
-// file upload
-const handleFileUploading = async () => {
-    try {
-      const res = await fetch('http://localhost:8000/upload');
-      const data = await res.json();
-      console.log(data)
-      setResponseData(data); // Store the fetched data in state
-    } catch (error) {
-      console.error('Error uploading:', error);
-    }
-  };
+// handle the file upload
+const onUpload = async (e) => {
+  e.preventDefault();
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append('file', file);
+  try {
+    const res = await fetch('http://localhost:8000/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error uploading:', error);
+  }
+};
+
+// // file upload
+// const handleFileUploading = async () => {
+//     try {
+//       const res = await fetch('http://localhost:8000/upload');
+//       const data = await res.json();
+//       console.log(data)
+//       setResponseData(data); // Store the fetched data in state
+//     } catch (error) {
+//       console.error('Error uploading:', error);
+//     }
+//   };
 const FileUpload = () => (
   <Upload {...props}>
-    <Button icon={<UploadOutlined />}>Click to Upload</Button>
+    <Button onClick= {onUpload} icon={<UploadOutlined />}>Click to Upload</Button>
   </Upload>
 );
 export default FileUpload;
