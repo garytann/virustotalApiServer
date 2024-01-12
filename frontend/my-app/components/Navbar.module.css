@@ -1,0 +1,33 @@
+/* components/Navbar.module.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: #222;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo a {
+  text-decoration: none;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+}
+
+.links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.links a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+
+.links a:hover {
+  color: #61dafb;
+}
