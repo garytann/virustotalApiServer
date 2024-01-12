@@ -11,6 +11,11 @@ client = vt.Client(API_KEY)
 
 app = FastAPI()
 
+def check_malicious(value : int):
+    result = "malicious" if value > 0 else "not malicious"
+    return result
+
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -34,6 +39,19 @@ def file_analysis(item_id: str):
 #         result = await loop.run_in_executor(pool, client.scan_file, file)
 #     return result
 
+@app.get("/report/{hash_id}")
+def file_report(hash_id: str):
+    url = f"https://www.virustotal.com/api/v3/files/{hash_id}"
+
+    headers = {
+        "accept": "application/json",
+        "x-apikey": API_KEY
+    }
+    response = requests.get(url, headers=headers)
+
+    print(response)
+    return response.json()
+
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
 
@@ -42,6 +60,8 @@ async def upload_file(file: UploadFile = File(...)):
     # TODO: 3) Return analysis ID
     # TODO: 4) Check analysis status
     # TODO: 5) Call file_analysis() to get analysis results using analysis ID
+
+    data = {}
     url = "https://www.virustotal.com/api/v3/files"
 
     files = { "file": (file.filename, file.file, "application/x-javascript") }
@@ -52,14 +72,26 @@ async def upload_file(file: UploadFile = File(...)):
     }
     response = requests.post(url, files=files, headers=headers)
     analysis_id = response.json()['data']['id']
-    result = file_analysis(analysis_id)
+    analysis_result = file_analysis(analysis_id)
+    hash_id = analysis_result['meta']['file_info']['sha256']
+    report = file_report(hash_id) 
+    
+    malicious_value = report['data']['attributes']['last_analysis_stats']['malicious']
 
-    print(result)
+
+    data['analysis_id'] = analysis_id
+    data['hash_id'] = hash_id
+    data['filename'] = file.filename
+    data['type'] = check_malicious(malicious_value)
+    data['meta'] = report['data']
+
+    # print(report['data']['attributes']['popular_threat_classification']['suggested_threat_label'])
+    # print(malicious_value)
     # analysis = await client.scan_file_async(file.file, wait_for_completion=True)
 
     # if analysis.status == "completed":
     #     print(analysis)
 
-    return {"filename": file.filename}
+    return {"data": data}
 
 
