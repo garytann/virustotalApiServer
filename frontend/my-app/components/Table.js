@@ -7,11 +7,11 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
 
 const props = {
-    // name: 'file',
-    // // action: 'http://localhost:3000/upload',
-    // headers: {
-    //     authorization: 'authorization-text',
-    // },
+    name: 'file',
+    action: 'http://localhost:3000/api/upload',
+    headers: {
+        authorization: 'authorization-text',
+    },
     async onChange(info) {
         if (info.file.status !== 'uploading') {
             console.log(info.file, info.fileList);
@@ -49,7 +49,7 @@ export default function DataTable() {
                 body: formData,
             });
             // const data = await res.json();
-            console.log(res);
+            console.log(res.text());
         } catch (error) {
             console.error('Error uploading:', error);
         }
@@ -57,10 +57,11 @@ export default function DataTable() {
 
     return (
         <div>
-            <Upload onChange = {handleFileChange} {...props}>
+            <Upload {...props}>
             {/* <Upload > */}
-                <Button onClick={uploadFile} icon={<UploadOutlined />}>Click to Upload</Button>
+                <Button onSubmit={uploadFile} icon={<UploadOutlined />}>Click to Upload</Button>
             </Upload>
+
 
             <Table dataSource={''}>
                 <Column title="ID" dataIndex="id" key="id" />

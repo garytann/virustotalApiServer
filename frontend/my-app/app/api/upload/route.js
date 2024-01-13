@@ -29,10 +29,10 @@ export async function POST() {
     const formData = new FormData();
     const res = await fetch('http://localhost:8000/upload', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'Multipart/form-data',
-      },
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //     // 'Content-Type': 'Multipart/form-data',
+    //   },
       body: formData,
     });
     const data = await res.json()
