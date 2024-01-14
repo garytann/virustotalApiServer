@@ -1,13 +1,13 @@
 from fastapi import FastAPI, File, UploadFile
 import requests
-import vt
 import asyncio
 import concurrent.futures
+from datetime import datetime
 
 
 API_KEY = "91835fbe8a24c0f0b2d12cab6b13024076af6c10900dbaeeca84a112747286e3"
 
-client = vt.Client(API_KEY)
+# client = vt.Client(API_KEY)
 
 app = FastAPI()
 
@@ -57,9 +57,10 @@ async def upload_file(file: UploadFile = File(...)):
 
     # TODO: 1) Upload file to VirusTotal
     # TODO: 2) Get analysis ID
-    # TODO: 3) Return analysis ID
+    # TODO: 3) Get hash ID
     # TODO: 4) Check analysis status
     # TODO: 5) Call file_analysis() to get analysis results using analysis ID
+    # TODO: 6) Call file_report() to get report using hash ID to determine if file is malicious or not
 
     data = {}
     url = "https://www.virustotal.com/api/v3/files"
@@ -83,6 +84,7 @@ async def upload_file(file: UploadFile = File(...)):
     data['hash_id'] = hash_id
     data['filename'] = file.filename
     data['type'] = check_malicious(malicious_value)
+    data['date'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     data['meta'] = report['data']
 
     # print(report['data']['attributes']['popular_threat_classification']['suggested_threat_label'])
