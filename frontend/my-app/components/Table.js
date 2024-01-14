@@ -28,16 +28,16 @@ const props = {
 export default function DataTable() {
     const [file, setFile] = React.useState(null);
 
-    const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
-    };
+    // const handleFileChange = (e) => {
+    //     setFile(e.target.files[0]);
+    // };
 
     // handle the file upload
     const uploadFile = async () => {
         // e.preventDefault();
         try {
             const formData = new FormData();
-            console.log(file)
+            console.log("this is file", file)
             // formData.set('file', file);
             formData.append('file', file);
             // formData.append('file', file);
@@ -57,11 +57,11 @@ export default function DataTable() {
 
     return (
         <div>
+            {/* <Upload onSubmit = {handleFileChange} {...props}> */}
             <Upload {...props}>
             {/* <Upload > */}
                 <Button onSubmit={uploadFile} icon={<UploadOutlined />}>Click to Upload</Button>
             </Upload>
-
 
             <Table dataSource={''}>
                 <Column title="ID" dataIndex="id" key="id" />

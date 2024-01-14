@@ -25,19 +25,22 @@ import { NextResponse } from 'next/server';
 //         return  NextResponse.json({status:"fail",data:e})
 //     }
 // }
-export async function POST() {
-    const formData = new FormData();
+export async function POST(req) {
+    // const formData = new FormData();
+    const formData = await req.formData();
+    // const fileInput = req.files.file; // Assuming the file input field name is "file"
+
+    // formData.append('file', fileInput);
+
     const res = await fetch('http://localhost:8000/upload', {
-      method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //     // 'Content-Type': 'Multipart/form-data',
-    //   },
-      body: formData,
+        method: 'POST',
+        body: formData,
     });
-    const data = await res.json()
-    return Response.json(data)
-  }
+
+    const data = await res.json();
+    console.log("this is server res data", data);
+    return NextResponse.json(data);
+}
 
 // import formidable from 'formidable';
 // import fs from 'fs';
