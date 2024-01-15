@@ -54,7 +54,7 @@ def file_report(hash_id: str):
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
-
+    res = []
     # TODO: 1) Upload file to VirusTotal
     # TODO: 2) Get analysis ID
     # TODO: 3) Get hash ID
@@ -86,7 +86,8 @@ async def upload_file(file: UploadFile = File(...)):
     data['type'] = check_malicious(malicious_value)
     data['date'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     data['meta'] = report['data']
-
+    
+    res.append(data)
     # print(report['data']['attributes']['popular_threat_classification']['suggested_threat_label'])
     # print(malicious_value)
     # analysis = await client.scan_file_async(file.file, wait_for_completion=True)
@@ -94,6 +95,6 @@ async def upload_file(file: UploadFile = File(...)):
     # if analysis.status == "completed":
     #     print(analysis)
 
-    return {"data": data}
+    return {"data": res}
 
 
