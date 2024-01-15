@@ -1,0 +1,5 @@
+{$DOMAIN} {
+	handle_path /* {
+		reverse_proxy backend:8000
+	}
+}
