@@ -3,13 +3,27 @@ import requests
 import asyncio
 import concurrent.futures
 from datetime import datetime
+import os
+from fastapi.middleware import cors
 
+from dotenv import load_dotenv
 
-API_KEY = "91835fbe8a24c0f0b2d12cab6b13024076af6c10900dbaeeca84a112747286e3"
+load_dotenv()
+
+# GET API KEY FROM .ENV FILE
+API_KEY = os.getenv("API_KEY")
 
 # client = vt.Client(API_KEY)
 
 app = FastAPI()
+
+app.add_middleware(
+    cors.CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def check_malicious(value : int):
     result = "malicious" if value > 0 else "not malicious"
