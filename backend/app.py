@@ -1,7 +1,5 @@
 from fastapi import FastAPI, File, UploadFile
 import requests
-import asyncio
-import concurrent.futures
 from datetime import datetime
 import os
 from fastapi.middleware import cors
