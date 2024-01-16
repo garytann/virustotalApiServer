@@ -11,18 +11,33 @@ services:
     environment:
       API_KEY: ${API_KEY}
     restart: unless-stopped
+    networks:
+      - internal-network
+      - default
+    depends_on:
+      caddy:
+        condition: service_started
 
   caddy:
-    container_name: varys-proxy
+    container_name: app-proxy
     environment:
       DOMAIN: ${DOMAIN}
     image: caddy:2.6.2-alpine
     ports:
       - '80:80'
       - '443:443'
-      - '8000:8000'
+        #- '8000:8000'
     restart: unless-stopped
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
+
+volumes:
+  caddy_config: null
+  caddy_data: null
+
+networks:
+  internal-network:
+    name: internal-network
+    driver: bridge
