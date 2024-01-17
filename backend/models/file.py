@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 class FileModel (BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    date: datetime = Field(default_factory=datetime.now)
+    date: datetime = Field(default_factory=datetime.now, alias="date")
     analysis_id: str = Field(...)
     hash_id: str = Field(...)
     filename: str

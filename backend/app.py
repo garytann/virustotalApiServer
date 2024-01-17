@@ -1,9 +1,9 @@
 from fastapi import FastAPI, File, UploadFile, Request
 import requests
-from datetime import datetime
 import os
 from fastapi.middleware import cors
 from fastapi.encoders import jsonable_encoder
+from datetime import datetime
 
 
 from dotenv import load_dotenv
@@ -21,11 +21,8 @@ API_KEY = os.getenv("API_KEY")
 URI = os.getenv("URI")
 DB = os.getenv("MONGO_DB")
 
-# client = vt.Client(API_KEY)
 
 app = FastAPI()
-# Create a new client and connect to the server
-# client = MongoClient(URI, server_api=ServerApi('1'))
 
 app.add_middleware(
     cors.CORSMiddleware,
@@ -37,7 +34,6 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup_db_client():
-    # app.mongodb_client = MongoClient(URI,server_api=ServerApi('1'))
     app.mongodb_client = AsyncIOMotorClient(URI,server_api=ServerApi('1'))
     app.database = app.mongodb_client[DB]
     try:
@@ -75,11 +71,6 @@ def file_analysis(item_id: str):
     print(response)
     return response.json()
 
-# async def scan_file_in_thread(file):
-#     loop = asyncio.get_event_loop()
-#     with concurrent.futures.ThreadPoolExecutor() as pool:
-#         result = await loop.run_in_executor(pool, client.scan_file, file)
-#     return result
 
 @app.get("/report/{hash_id}")
 def file_report(hash_id: str):
@@ -97,6 +88,7 @@ def file_report(hash_id: str):
 @app.post("/upload")
 async def upload_file(request : Request, file: UploadFile = File(...)):
     res = []
+
     # TODO: 1) Upload file to VirusTotal
     # TODO: 2) Get analysis ID
     # TODO: 3) Get hash ID
@@ -129,19 +121,14 @@ async def upload_file(request : Request, file: UploadFile = File(...)):
     data['meta'] = report['data']
     
     # Insert the record into the database
-    file_data = jsonable_encoder(data)
+    file_data = FileModel(**data)
+    file_data = jsonable_encoder(file_data)
     file_object = await request.app.database["VirusData"].insert_one(file_data)
 
-    print(file_object)
-    
+    print(file_data)
     # return the data as an array of dictionary
-    res.append(data)
-    # print(report['data']['attributes']['popular_threat_classification']['suggested_threat_label'])
-    # print(malicious_value)
-    # analysis = await client.scan_file_async(file.file, wait_for_completion=True)
+    res.append(file_data)
 
-    # if analysis.status == "completed":
-    #     print(analysis)
 
     return {"data": res}
 
