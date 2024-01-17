@@ -1,19 +1,31 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Request
 import requests
 from datetime import datetime
 import os
 from fastapi.middleware import cors
+from fastapi.encoders import jsonable_encoder
+
 
 from dotenv import load_dotenv
+
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+from motor.motor_asyncio import AsyncIOMotorClient
+
+from models.file import FileModel
 
 load_dotenv()
 
 # GET API KEY FROM .ENV FILE
 API_KEY = os.getenv("API_KEY")
+URI = os.getenv("URI")
+DB = os.getenv("MONGO_DB")
 
 # client = vt.Client(API_KEY)
 
 app = FastAPI()
+# Create a new client and connect to the server
+# client = MongoClient(URI, server_api=ServerApi('1'))
 
 app.add_middleware(
     cors.CORSMiddleware,
@@ -22,6 +34,24 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.on_event("startup")
+async def startup_db_client():
+    # app.mongodb_client = MongoClient(URI,server_api=ServerApi('1'))
+    app.mongodb_client = AsyncIOMotorClient(URI,server_api=ServerApi('1'))
+    app.database = app.mongodb_client[DB]
+    try:
+        app.mongodb_client.admin.command('ping')
+        print("Pinged your deployment. You successfully connected to MongoDB!")
+    except Exception as e:
+        print(e)
+
+    return app.database
+
+@app.on_event("shutdown")
+async def shutdown_db_client():
+    print("You successfully disconnected your db client!")
+    app.mongodb_client.close()
 
 def check_malicious(value : int):
     result = "malicious" if value > 0 else "not malicious"
@@ -65,7 +95,7 @@ def file_report(hash_id: str):
     return response.json()
 
 @app.post("/upload")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(request : Request, file: UploadFile = File(...)):
     res = []
     # TODO: 1) Upload file to VirusTotal
     # TODO: 2) Get analysis ID
@@ -91,14 +121,20 @@ async def upload_file(file: UploadFile = File(...)):
     
     malicious_value = report['data']['attributes']['last_analysis_stats']['malicious']
 
-
+    # store the file data as a dictionary first
     data['analysis_id'] = analysis_id
     data['hash_id'] = hash_id
     data['filename'] = file.filename
     data['type'] = check_malicious(malicious_value)
-    data['date'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     data['meta'] = report['data']
     
+    # Insert the record into the database
+    file_data = jsonable_encoder(data)
+    file_object = await request.app.database["VirusData"].insert_one(file_data)
+
+    print(file_object)
+    
+    # return the data as an array of dictionary
     res.append(data)
     # print(report['data']['attributes']['popular_threat_classification']['suggested_threat_label'])
     # print(malicious_value)
