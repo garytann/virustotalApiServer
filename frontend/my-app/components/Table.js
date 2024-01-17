@@ -13,7 +13,7 @@ export default function DataTable() {
     
     const props = {
         name: 'file',
-        action: 'http://103.3.61.201:3000/api/upload',
+        action: 'http://localhost:8000/upload',
         headers: {
             authorization: 'authorization-text',
         },
@@ -70,23 +70,23 @@ export default function DataTable() {
 
 
     // handle the file upload
-    const uploadFile = async () => {
-        try {
-            const formData = new FormData();
-            formData.append('file', file);
-            const res = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData,
-            }).then((res) => { console.log("data", res) });
-            const response = await res.json();
+    // const uploadFile = async () => {
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append('file', file);
+    //         const res = await fetch('/api/upload', {
+    //             method: 'POST',
+    //             body: formData,
+    //         }).then((res) => { console.log("data", res) });
+    //         const response = await res.json();
 
-            // console.log("helloworld");
-            // console.log('##response', response);
+    //         // console.log("helloworld");
+    //         // console.log('##response', response);
 
-        } catch (error) {
-            console.error('Error uploading:', error);
-        }
-    };
+    //     } catch (error) {
+    //         console.error('Error uploading:', error);
+    //     }
+    // };
 
     return (
         <div>

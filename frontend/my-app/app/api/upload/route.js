@@ -1,6 +1,7 @@
 
 import { NextResponse } from 'next/server';
 
+
 export async function POST(req) {
     // const formData = new FormData();
     // ipmport to use this to set the file data that receive from client
@@ -9,7 +10,7 @@ export async function POST(req) {
 
     // formData.append('file', fileInput);
 
-    const res = await fetch('http://103.3.61.201:8000/upload', {
+    const res = await fetch('http://localhost:8000/upload', {
         method: 'POST',
         body: formData,
     });

@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # Step 1. Rebuild the source code only when needed
 FROM base AS builder
@@ -15,7 +15,7 @@ RUN \
   # Allow install without lockfile, so example works even without Node.js installed locally
   else echo "Warning: Lockfile not found. It is recommended to commit lockfiles to version control." && yarn install; \
   fi
-
+# COPY . .
 COPY app ./app
 COPY components ./components
 COPY public ./public
