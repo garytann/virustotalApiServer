@@ -10,6 +10,8 @@ services:
       - 8000:8000
     environment:
       API_KEY: ${API_KEY}
+      URI: ${URI}
+      MONGO_DB: ${MONGO_DB}
     restart: unless-stopped
     networks:
       - internal-network
@@ -17,25 +19,38 @@ services:
     depends_on:
       caddy:
         condition: service_started
-
-  caddy:
-    container_name: app-proxy
-    environment:
-      DOMAIN: ${DOMAIN}
-    image: caddy:2.6.2-alpine
+    
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend/my-app
+      dockerfile: Dockerfile
+    restart: always
     ports:
-      - '80:80'
-      - '443:443'
-        #- '8000:8000'
-    restart: unless-stopped
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
+      - 3000:3000
+    networks:
+      - internal-network
+      - default
 
-volumes:
-  caddy_config: null
-  caddy_data: null
+
+#   caddy:
+#     container_name: app-proxy
+#     environment:
+#       DOMAIN: ${DOMAIN}
+#     image: caddy:2.6.2-alpine
+#     ports:
+#       - '80:80'
+#       - '443:443'
+#         #- '8000:8000'
+#     restart: unless-stopped
+#     volumes:
+#       - ./Caddyfile:/etc/caddy/Caddyfile
+#       - caddy_data:/data
+#       - caddy_config:/config
+
+# volumes:
+#   caddy_config: null
+#   caddy_data: null
 
 networks:
   internal-network:
