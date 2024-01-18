@@ -13,7 +13,7 @@ export default function DataTable() {
     
     const props = {
         name: 'file',
-        action: 'http://localhost:8000/upload',
+        action: 'http://localhost:3000/api/upload',
         headers: {
             authorization: 'authorization-text',
         },
@@ -92,9 +92,6 @@ export default function DataTable() {
         <div>
             {/* <Upload onSubmit={handleFileChange} {...props}> */}
             <Upload {...props} showUploadList={false}>
-                {/* <Upload > */}
-                {/* <Upload {...props}> */}
-                {/* <Upload > */}
                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
             </Upload>
 

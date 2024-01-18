@@ -2,10 +2,11 @@ from datetime import datetime
 import uuid
 from typing import Optional
 from pydantic import BaseModel, Field
+import pytz
 
 class FileModel (BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    date: datetime = Field(default_factory=datetime.now, alias="date")
+    date: datetime = Field(default_factory=lambda: datetime.now(pytz.timezone('Asia/Singapore')), alias="date")
     analysis_id: str = Field(...)
     hash_id: str = Field(...)
     filename: str

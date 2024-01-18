@@ -16,9 +16,9 @@ services:
     networks:
       - internal-network
       - default
-    depends_on:
-      caddy:
-        condition: service_started
+    #depends_on:
+      #caddy:
+        #condition: service_started
     
   frontend:
     container_name: frontend

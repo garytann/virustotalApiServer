@@ -119,7 +119,7 @@ async def upload_file(request : Request, file: UploadFile = File(...)):
     data['filename'] = file.filename
     data['type'] = check_malicious(malicious_value)
     data['meta'] = report['data']
-    
+    # data['data'] = datetime.now()
     # Insert the record into the database
     file_data = FileModel(**data)
     file_data = jsonable_encoder(file_data)
