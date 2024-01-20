@@ -1,5 +1,7 @@
 FROM python:3.10.0-alpine
 
+ENV TZ="Asia/Singapore"
+
 WORKDIR /backend
 
 COPY . .
