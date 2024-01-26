@@ -1,22 +1,86 @@
-// components/Navbar.js
+// components/Navbar.js'use client';
+"use client";
 
+import Image from "next/image"
 import Link from 'next/link';
-import styles from './Navbar.module.css';
+// import styles from './Navbar.module.css';
+import { useState } from 'react';
+import Logo from '@/public/next.svg'
+import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
+
+import { icons } from "antd/es/image/PreviewGroup";
 
 const Navbar = () => {
+
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const handleNav = () => {
+    setMenuOpen(!menuOpen);
+  }
+
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.logo}>
+    // fixed -> fix on top of the screen
+    // w-full -> width full
+    // h-24 -> height 24
+    // shadow-xl -> shadow extra large
+    // bg-white -> background white
+    <nav className="fixed w-full h-24 shadow-xl bg-white">
+      {/* flex -> flex display
+      justify between -> justify content space between
+      item-center -> align item center
+      height full -> height full
+      2xl:px-16 -> padding 16px on 2xl screen */}
+      <div className="flex justify-between items-center h-full w-full px-4 2xl:px-16">
+        {/* Logo */}
+        {/* Logo variable is imported from the public folder */}
         <Link href="/">
-          {/* Removed the <a> tag here */}
-          ScanFileApp
+          {/* <Image
+            src={Logo}
+            alt="Logo"
+            width="205"
+            height="75"
+            className="cursor-pointer"
+            priority
+          /> */}
+          <h1>
+            LOGO
+          </h1>
         </Link>
+
+        {/* Item List */}
+        <div className="hidden sm:flex">
+          <ul className="hidden sm:flex">
+            <Link href="/about">
+              <li className="ml-10 uppercase hover:border-b text-l"> About Us</li>
+            </Link>
+
+            <Link href="/contact">
+              <li className="ml-10 uppercase hover:border-b text-l"> Contact</li>
+            </Link>
+
+            <Link href="/dashboard">
+              <li className="ml-10 uppercase hover:border-b text-l"> Get Started</li>
+            </Link>
+          </ul>
+        </div>
+
+        {/* Hamburger Menu */}
+        <div onClick={handleNav} className="sm:hidden cursor-pointer pl-24">
+          <AiOutlineMenu size={25} />
+        </div>
+
       </div>
-      <div className={styles.links}>
-        <Link href="/about">About</Link>
-        <Link href="/dashboard">
-            Get Started
-        </Link>
+      <div className={
+        menuOpen
+          ? "fixed left-0 top-0 w-[65%] sm:hidden h-screen bg-[#ecf0f3] p-10 ease-in duration-500"
+          : "fied left-[-100%] top-0 p-10 ease-in duration-500"
+      }
+      >
+        {/* <div className="flex w-full items-center justify-end">
+          <div onClick={handleNav} className="cursor-pointer">
+            <AiOutlineClose size={25} />
+          </div>
+        </div> */}
       </div>
     </nav>
   );

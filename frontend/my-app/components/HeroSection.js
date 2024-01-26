@@ -16,7 +16,7 @@ const HeroSection = () => {
           </Link>
         </div>
         <div className={styles.image}>
-          <img src="/site_design_2.jpg" priority />
+          <img src="/site_design_2.jpg"/>
         </div>
       </div>
 
