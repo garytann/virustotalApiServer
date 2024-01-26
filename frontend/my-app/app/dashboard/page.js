@@ -4,9 +4,6 @@ import DataTable from '@/components/Table'
 export default async function Page() {
   
   return (
-    <div>
-      <DataTable />
-    </div>
-
+    <DataTable/>
   )
 }

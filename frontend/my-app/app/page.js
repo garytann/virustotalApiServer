@@ -6,11 +6,8 @@ import Navbar from '@/components/NavBar'
 
 export default function Home() {
   return (
-    <div>
-        {/* <HeroSection/> */}
-    </div>
-    // <Navbar/>
-    // <HeroSection/>
-
-  )
+    <>
+      <HeroSection />    
+    </>
+  );
 }

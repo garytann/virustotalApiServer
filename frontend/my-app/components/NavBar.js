@@ -1,14 +1,9 @@
-// components/Navbar.js'use client';
 "use client";
-
 import Image from "next/image"
 import Link from 'next/link';
-// import styles from './Navbar.module.css';
 import { useState } from 'react';
 import Logo from '@/public/next.svg'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
-
-import { icons } from "antd/es/image/PreviewGroup";
 
 const Navbar = () => {
 
@@ -19,12 +14,13 @@ const Navbar = () => {
   }
 
   return (
-    // fixed -> fix on top of the screen
-    // w-full -> width full
-    // h-24 -> height 24
-    // shadow-xl -> shadow extra large
-    // bg-white -> background white
-    <nav className="fixed w-full h-24 shadow-xl bg-white">
+    <>
+    {/* -> fix on top of the screen
+    w-full -> width full
+    h-24 -> height 24
+    shadow-xl -> shadow extra large
+    bg-white -> background white */}
+    <nav className="w-full h-24 shadow-xl bg-white">
       {/* flex -> flex display
       justify between -> justify content space between
       item-center -> align item center
@@ -50,16 +46,16 @@ const Navbar = () => {
         {/* Item List */}
         <div className="hidden sm:flex">
           <ul className="hidden sm:flex">
-            <Link href="/about">
-              <li className="ml-10 uppercase hover:border-b text-l"> About Us</li>
+            <Link href="/about" className="w-[100%] px-2 py-2 mt-3 text-center">
+              <li className="uppercase hover:border-b text-l"> About Us</li>
             </Link>
 
-            <Link href="/contact">
-              <li className="ml-10 uppercase hover:border-b text-l"> Contact</li>
+            <Link href="/contact" className="w-[100%] px-2 py-2 mt-3 text-center">
+              <li className="uppercase hover:border-b text-l"> Contact</li>
             </Link>
 
-            <Link href="/dashboard">
-              <li className="ml-10 uppercase hover:border-b text-l"> Get Started</li>
+            <Link href="/dashboard" className="w-[100%] px-2 py-2 mt-3 text-center text-white bg-indigo-600 rounded-md lg:ml-5" >
+              <li className="uppercase hover:border-b text-l"> Get Started</li>
             </Link>
           </ul>
         </div>
@@ -83,6 +79,7 @@ const Navbar = () => {
         </div> */}
       </div>
     </nav>
+    </>
   );
 };
 
