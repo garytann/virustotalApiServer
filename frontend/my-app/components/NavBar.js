@@ -38,7 +38,7 @@ const Navbar = () => {
             className="cursor-pointer"
             priority
           /> */}
-          <h1>
+          <h1 className="uppercase text-xl">
             LOGO
           </h1>
         </Link>
@@ -47,15 +47,15 @@ const Navbar = () => {
         <div className="hidden sm:flex">
           <ul className="hidden sm:flex">
             <Link href="/about" className="w-[100%] px-2 py-2 mt-3 text-center">
-              <li className="uppercase hover:border-b text-l"> About Us</li>
+              <li className="uppercase hover:border-b text-l whitespace-nowrap"> About Us</li>
             </Link>
 
             <Link href="/contact" className="w-[100%] px-2 py-2 mt-3 text-center">
               <li className="uppercase hover:border-b text-l"> Contact</li>
             </Link>
 
-            <Link href="/dashboard" className="w-[100%] px-2 py-2 mt-3 text-center text-white bg-indigo-600 rounded-md lg:ml-5" >
-              <li className="uppercase hover:border-b text-l"> Get Started</li>
+            <Link href="/dashboard" className="w-full px-5 py-4 mt-2 text-center text-white bg-indigo-600 rounded-md lg:ml-5">
+              <li className="uppercase hover:border-b text-l whitespace-nowrap"> Get Started</li>
             </Link>
           </ul>
         </div>
