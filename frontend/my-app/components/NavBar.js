@@ -38,7 +38,7 @@ const Navbar = () => {
             className="cursor-pointer"
             priority
           /> */}
-          <h1 className="uppercase text-xl">
+          <h1 className="uppercase text-xl italic">
             LOGO
           </h1>
         </Link>
@@ -61,7 +61,7 @@ const Navbar = () => {
         </div>
 
         {/* Hamburger Menu */}
-        <div onClick={handleNav} className="sm:hidden cursor-pointer pl-24">
+        {/* <div onClick={handleNav} className="sm:hidden cursor-pointer pl-24">
           <AiOutlineMenu size={25} />
         </div>
 
@@ -71,7 +71,7 @@ const Navbar = () => {
           ? "fixed left-0 top-0 w-[65%] sm:hidden h-screen bg-[#ecf0f3] p-10 ease-in duration-500"
           : "fied left-[-100%] top-0 p-10 ease-in duration-500"
       }
-      >
+      > */}
         {/* <div className="flex w-full items-center justify-end">
           <div onClick={handleNav} className="cursor-pointer">
             <AiOutlineClose size={25} />

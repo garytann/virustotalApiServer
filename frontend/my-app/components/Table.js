@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { Space, Table, Tag } from 'antd';
-const { Column, ColumnGroup } = Table;
+// const { Column, ColumnGroup } = Table;
 import { UploadOutlined } from '@ant-design/icons';
 import { InboxOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
@@ -65,26 +65,31 @@ export default function DataTable() {
             title: 'ID',
             dataIndex: 'analysis_id',
             key: 'analysis_id',
+            align: 'center'
         },
         {
             title: 'File',
             dataIndex: 'filename',
             key: 'filename',
+            align: 'center'
         },
         {
             title: 'SHA256',
             dataIndex: 'hash_id',
             key: 'hash_id',
+            align: 'center'
         },
         {
             title: 'Detected',
             dataIndex: 'type',
             key: 'type',
+            align: 'center'
         },
         {
             title: 'Date',
             dataIndex: 'date',
             key: 'date',
+            align: 'center'
         }
     ]);
 
@@ -133,7 +138,11 @@ export default function DataTable() {
                 </p>
             </Dragger>
 
-            <Table dataSource={dataSource} columns={column}>
+            <Table
+                dataSource={dataSource} 
+                columns={column}
+                ellipsis={true}
+                >
                 {/* <Column title="ID" dataIndex="analysis_id" key="analysis_id" />
                 <Column title="File" dataIndex="filename" key="filename" />
                 <Column title="SHA256" dataIndex="hash_id" key="hash_id" />
