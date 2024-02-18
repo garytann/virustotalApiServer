@@ -16,8 +16,8 @@ export default function DataTable() {
     const props = {
         name: 'file',
         // multiple: true,
-        // action: 'http://103.3.61.201:3000/api/upload'
-        action: 'http://localhost:3000/api/upload',
+	action: 'http://103.3.61.201:3000/api/upload',
+	//action: 'http://localhost:3000/api/upload',
         headers: {
             authorization: 'authorization-text',
         },
